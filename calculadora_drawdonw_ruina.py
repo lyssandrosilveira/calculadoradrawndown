@@ -46,7 +46,7 @@ def calcular_drawdown(saldo_inicial, perdas_consecutivas, perda_percentual):
     st.write(tabulate(tabela_resumo, headers=tabela_cabecalho_resumo, tablefmt='github'))
 
 # Interface do Streamlit
-st.title("Calculadora de Drawdown")
+st.title("Calculadora de Drawdown e Risco Ruína")
 
 saldo_inicial = st.number_input("Informe o saldo inicial (banca):")
 perdas_consecutivas = st.number_input("Informe o número de perdas consecutivas:", step=1, min_value=0)
