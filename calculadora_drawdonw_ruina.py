@@ -22,7 +22,7 @@ def calcular_drawdown(saldo_inicial, perdas_consecutivas, perda_percentual):
         else:
             sequencia_drawdown = 0
         
-        tabela_resultados.append([i+1, saldo_atual, perda])
+        tabela_resultados.append([i+1, saldo_atual, "{:.2f}".format(perda)])
         
         perda_total = saldo_inicial - saldo_atual
         perda_percentual_total = (perda_total / saldo_inicial) * 100
@@ -44,12 +44,12 @@ def calcular_drawdown(saldo_inicial, perdas_consecutivas, perda_percentual):
     
     tabela_resumo = []
     tabela_resumo.append(["Saldo Inicial", "Perda Total", "Saldo Final"])
-    tabela_resumo.append([saldo_inicial, perda_total, saldo_final])
+    tabela_resumo.append([saldo_inicial, "{:.2f}".format(perda_total), saldo_final])
     
     st.table(tabela_resumo)
 
 # Interface do Streamlit
-st.title("Calculadora de Drawdown e Risco de Ruína")
+st.title("Calculadora de Drawdown")
 
 saldo_inicial = st.number_input("Informe o saldo inicial (banca):")
 perdas_consecutivas = st.number_input("Informe o número de perdas consecutivas:", step=1, min_value=0)
