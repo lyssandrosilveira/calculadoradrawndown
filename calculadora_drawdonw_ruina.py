@@ -1,12 +1,12 @@
 import streamlit as st
-from tabulate import tabulate
-from colorama import Fore, Back, Style
 
 def calcular_drawdown(saldo_inicial, perdas_consecutivas, perda_percentual):
     saldo_atual = saldo_inicial
     drawdown_maximo = 0
     sequencia_drawdown = 0
-    tabela_resultados = []
+    
+    st.write("Período | Saldo Atual | Perda")
+    st.write("--- | --- | ---")
     
     for i in range(perdas_consecutivas):
         perda = saldo_atual * (perda_percentual / 100)
@@ -20,7 +20,7 @@ def calcular_drawdown(saldo_inicial, perdas_consecutivas, perda_percentual):
         else:
             sequencia_drawdown = 0
         
-        tabela_resultados.append([i+1, format(saldo_atual, ".2f"), format(perda, ".2f")])
+        st.write(f"{i+1} | {saldo_atual:.2f} | {perda:.2f}")
         
         perda_total = saldo_inicial - saldo_atual
         perda_percentual_total = (perda_total / saldo_inicial) * 100
@@ -29,9 +29,7 @@ def calcular_drawdown(saldo_inicial, perdas_consecutivas, perda_percentual):
         if sequencia_drawdown == 10 and perda_percentual_total >= 20:
             break
     
-    tabela_cabecalho = ['Período', 'Saldo Atual', 'Perda']
-    
-    st.write(tabulate(tabela_resultados, headers=tabela_cabecalho, tablefmt='github'))
+    st.write("------")
     
     if saldo_atual <= 0 or (sequencia_drawdown == 10 and perda_percentual_total >= 20):
         risco_ruina = True
@@ -40,13 +38,13 @@ def calcular_drawdown(saldo_inicial, perdas_consecutivas, perda_percentual):
         risco_ruina = False
         st.success("Risco de Ruína: Não")
     
-    tabela_resumo = [[saldo_inicial, format(perda_total, ".2f") + " (" + format(perda_percentual_total, ".2f") + "%)", saldo_final]]
-    tabela_cabecalho_resumo = ['Saldo Inicial', 'Perda Total', 'Saldo Final']
-    
-    st.write(tabulate(tabela_resumo, headers=tabela_cabecalho_resumo, tablefmt='github'))
+    st.write("---")
+    st.write(f"Saldo Inicial: {saldo_inicial:.2f}")
+    st.write(f"Perda Total: {perda_total:.2f} ({perda_percentual_total:.2f}%)")
+    st.write(f"Saldo Final: {saldo_final:.2f}")
 
 # Interface do Streamlit
-st.title("Calculadora de Drawdown e Risco Ruína")
+st.title("Calculadora de Drawdown")
 
 saldo_inicial = st.number_input("Informe o saldo inicial (banca):")
 perdas_consecutivas = st.number_input("Informe o número de perdas consecutivas:", step=1, min_value=0)
