@@ -1,4 +1,3 @@
-pip install tabulate
 import streamlit as st
 from tabulate import tabulate
 from colorama import Fore, Back, Style
